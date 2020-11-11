@@ -12,5 +12,8 @@ namespace SuperHero.Data
             : base(options)
         {
         }
+
+        public DbSet<SuperHero> Supes { get; set; }
+
     }
 }
