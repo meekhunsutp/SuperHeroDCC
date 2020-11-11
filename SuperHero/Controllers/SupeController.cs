@@ -11,29 +11,30 @@ namespace SuperHero.Controllers
 {
     public class SupeController : Controller
     {
-        private ApplicationDbContext _context;
-        public SupeController(ApplicationDbContext context)
+        private ApplicationDbContext db;
+        public SupeController(ApplicationDbContext _db)
         {
-            _context = context;
+            db = _db;
         }
         // GET: SupeController
         public ActionResult Index()
         {
-            List<Superhero> supes = _context.Supes.ToList();
+            List<Superhero> supes = db.Supes.ToList();
             return View(supes);
         }
 
         // GET: SupeController/Details/5
         public ActionResult Details(int id)
         {
-            var supeIdDetails = _context.Supes.Where(c => c.Id == id).FirstOrDefault();
+            Superhero supeIdDetails = db.Supes.Find(id);
             return View(supeIdDetails);
         }
 
         // GET: SupeController/Create
         public ActionResult Create()
         {
-            return View();
+            Superhero superhero = new Superhero();
+            return View(superhero);
         }
 
         // POST: SupeController/Create
@@ -43,8 +44,8 @@ namespace SuperHero.Controllers
         {
             try
             {
-                _context.Supes.Add(supe);
-                _context.SaveChanges();
+                db.Supes.Add(supe);
+                db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -56,16 +57,19 @@ namespace SuperHero.Controllers
         // GET: SupeController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Superhero supeIdEdit = db.Supes.Find(id);
+            return View(supeIdEdit);
         }
 
         // POST: SupeController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Superhero supe)
         {
             try
             {
+                db.Supes.Update(supe);
+                db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
