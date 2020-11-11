@@ -26,7 +26,8 @@ namespace SuperHero.Controllers
         // GET: SupeController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var supeIdDetails = _context.Supes.Where(c => c.Id == id).FirstOrDefault();
+            return View(supeIdDetails);
         }
 
         // GET: SupeController/Create
