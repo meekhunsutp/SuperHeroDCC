@@ -19,7 +19,8 @@ namespace SuperHero.Controllers
         // GET: SupeController
         public ActionResult Index()
         {
-            return View();
+            List<Superhero> supes = _context.Supes.ToList();
+            return View(supes);
         }
 
         // GET: SupeController/Details/5
