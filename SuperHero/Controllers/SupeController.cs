@@ -81,16 +81,19 @@ namespace SuperHero.Controllers
         // GET: SupeController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var supeDelete = db.Supes.Find(id);
+            return View(supeDelete);
         }
 
         // POST: SupeController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Superhero supe)
         {
             try
             {
+                db.Supes.Remove(supe);
+                db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
